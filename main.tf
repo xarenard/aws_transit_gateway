@@ -25,8 +25,6 @@ locals {
   if key == "vpc_shared_service" }
 }
 
-
-
 //Create all VPCs
 resource "aws_vpc" "map" {
   for_each = local.vpcs
@@ -91,8 +89,6 @@ resource "aws_route_table_association" "rt_association_vpc_client" {
 
   route_table_id = aws_route_table.rt_vpc_client[each.key].id
   subnet_id      = aws_subnet.map[each.key].id
-
-
 }
 
 // Create route table for shared service
@@ -252,7 +248,6 @@ resource "aws_security_group" "sg_vpc_shared_service" {
     //cidr_blocks = [for key,value in local.vpc_clients: value.cidr]
   }
 
-
   vpc_id = aws_vpc.map["vpc_shared_service"].id
 }
 
@@ -275,7 +270,6 @@ data "aws_ami" "amazon-linux-2" {
 
 
 resource "aws_instance" "ec2_instance_client" {
-
 
   depends_on = [
   aws_internet_gateway.ig]
